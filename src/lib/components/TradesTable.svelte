@@ -1,7 +1,12 @@
 <script lang="ts">
-	import type { Trade } from '$lib/data/Trade';
+	import { isClosed, type Trade } from '$lib/data/Trade';
 	import json from '$lib/data/trades.json';
 
+	type Props = {
+		oninfo: (trade: Trade) => void;
+		onexit: (trade: Trade) => void;
+	};
+	let { oninfo, onexit }: Props = $props();
 	let trades = json as Trade[];
 
 	type DataTableColumn = {
@@ -24,32 +29,38 @@
 	];
 </script>
 
-<div class="container">
-	<table>
-		<thead>
-			<tr>
-				{#each columns as column, i (i)}
-					<th>{column.key.toUpperCase()}</th>
-				{/each}
-				<!-- <th>ACTIONS</th> -->
-			</tr>
-		</thead>
-		<tbody>
-			{#each trades as row, i (i)}
-				<tr>
-					{#each columns as column, i (i)}
-						<td>{row[column.key]}</td>
-					{/each}
-					<!-- <td><button>close</button>&nbsp;<button>remove</button></td> -->
-				</tr>
+<table>
+	<thead>
+		<tr>
+			<th>ACTIONS</th>
+			{#each columns as column, i (i)}
+				<th>{column.key.toUpperCase()}</th>
 			{/each}
-		</tbody>
-	</table>
-</div>
+		</tr>
+	</thead>
+	<tbody>
+		{#each trades as trade, i (i)}
+			<tr>
+				<td>
+					<button onclick={() => oninfo(trade)}>Info</button>
+					{#if !isClosed(trade)}
+						<button onclick={() => onexit(trade)}>Exit</button>
+					{/if}
+				</td>
+				{#each columns as column, i (i)}
+					<td>{trade[column.key]}</td>
+				{/each}
+			</tr>
+		{/each}
+	</tbody>
+</table>
 
 <style>
-	.container {
-		overflow: auto;
-		width: 100%;
+	td {
+		text-align: center;
+	}
+
+	td button:not(:first-child) {
+		margin-left: 4px;
 	}
 </style>

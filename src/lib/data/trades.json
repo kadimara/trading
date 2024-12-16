@@ -1,1 +1,27 @@
-[{"reports":["https://www.tradingview.com/x/Si6g5S6z/"],"note":"","symbol":"btc","longShort":"short","timeFrame":"3min","risk":0.003,"riskRewardRatio":"1 / 2","account":100,"amount":400,"entry":96243.5,"takeProfit":95765,"stopLoss":96481.5,"exits":[],"pnl":0,"dateCreated":1733860321812,"dateOpen":-1,"dateClosed":-1,"taker":0.0005,"maker":0},{"reports":["asdasdasd"],"note":"","symbol":"btc","longShort":"long","timeFrame":"3min","risk":0.0086,"riskRewardRatio":"1 / 3","account":100,"amount":120,"entry":123,"takeProfit":126,"stopLoss":122,"exits":[],"pnl":0,"dateCreated":1733996015056,"dateOpen":-1,"dateClosed":-1,"taker":0.0005,"maker":0}]
+[
+	{
+		"reports": [
+			{
+				"chart": "https://www.tradingview.com/x/sYMnjLk3/",
+				"note": "Momentum zwakt af geen gains."
+			}
+		],
+		"symbol": "btc",
+		"longShort": "short",
+		"timeFrame": "3min",
+		"risk": 0.0028,
+		"riskRewardRatio": "1 / 2",
+		"account": 100,
+		"amount": 360,
+		"entry": 107204,
+		"takeProfit": 106704,
+		"stopLoss": 107454,
+		"exits": [],
+		"pnl": 0,
+		"dateCreated": 1734372790688,
+		"dateEntry": -1,
+		"dateExit": -1,
+		"taker": 0.0005,
+		"maker": 0
+	}
+]

@@ -12,16 +12,18 @@ export type TimeFrame = (typeof timeFrames)[number];
 export const marketLimit = ['market', 'limit'] as const;
 export type MarketLimit = (typeof marketLimit)[number];
 
-export type Order = {
+export type Report = {
+	chart: string;
+	note: string;
+};
+export type ExitOrder = {
 	amount: number;
-	entry: number;
 	exit: number;
 	pnl: number;
 };
 
 export type Trade = {
-	reports: string[];
-	note: string;
+	reports: Report[];
 	symbol: Symbol;
 	longShort: LongShort;
 	timeFrame: TimeFrame;
@@ -33,12 +35,12 @@ export type Trade = {
 	entry: number;
 	takeProfit: number;
 	stopLoss: number;
-	exits: Order[];
+	exits: ExitOrder[];
 	pnl: number;
 
 	dateCreated: number;
-	dateOpen: number;
-	dateClosed: number;
+	dateEntry: number;
+	dateExit: number;
 
 	taker: number;
 	maker: number;
@@ -76,7 +78,7 @@ export function getEntryAmount(
 	if (!account || !risk) {
 		return 0;
 	}
-	return Math.floor(account / (risk * 100) / 10) * 10;
+	return Math.round(account / (risk * 100) / 10) * 10;
 }
 
 /**
@@ -117,7 +119,7 @@ export function getRiskRewardRatio(entry: number, takeProfit: number, stopLoss: 
 }
 
 export function createTrade(
-	analyze: string,
+	analyze: Report,
 	account: number,
 	entry: number,
 	takeProfit: number,
@@ -129,11 +131,10 @@ export function createTrade(
 	const longShort = getLongShort(entry, stopLoss);
 	const risk = getRisk(entry, stopLoss, taker);
 	const riskRewardRatio = getRiskRewardRatio(entry, takeProfit, stopLoss);
-	const amount = getEntryAmount(account, entry, stopLoss, 0);
+	const amount = getEntryAmount(account, entry, stopLoss, taker);
 
 	return {
 		reports: [analyze],
-		note: '',
 		symbol: symbol,
 		longShort: longShort,
 		timeFrame: timeFrame,
@@ -147,8 +148,8 @@ export function createTrade(
 		exits: [],
 		pnl: 0,
 		dateCreated: Date.now(),
-		dateOpen: -1,
-		dateClosed: -1,
+		dateEntry: -1,
+		dateExit: -1,
 		taker: taker,
 		maker: 0
 	};
@@ -157,32 +158,30 @@ export function createTrade(
 export function createExitOrder(
 	trade: Trade,
 	amount: number,
-	entry: number,
 	exit: number
 	// type?: MarketLimit = "limit"
-): Order {
+): ExitOrder {
 	return {
 		amount: amount,
-		entry: entry,
 		exit: exit,
 		pnl: getPnL(trade.longShort, trade.entry, exit, amount)
 	};
 }
 
-export function addExitOrder(trade: Trade, exit: Order) {
+export function addExitOrder(trade: Trade, exit: ExitOrder) {
 	return { ...trade, exits: [...trade.exits, exit] };
 }
 
 export function openTrade(trade: Trade, date: number): Trade {
-	return { ...trade, dateOpen: date };
+	return { ...trade, dateEntry: date };
 }
-export function closeTrade(trade: Trade, result: string, date: number): Trade {
+export function closeTrade(trade: Trade, report: Report, date: number): Trade {
 	const pnl = trade.exits.map((order) => order.pnl).reduce((a, b) => a + b);
 
 	return {
 		...trade,
-		reports: [...trade.reports, result],
-		dateClosed: date,
+		reports: [...trade.reports, report],
+		dateExit: date,
 		pnl: pnl
 	};
 }
@@ -191,8 +190,8 @@ function round(value: number, fractionDigits?: number) {
 	return Number(value.toFixed(fractionDigits));
 }
 
-export function isOpen(trade: Trade) {
-	return trade.dateOpen != -1 && trade.dateClosed == -1;
+export function isClosed(trade: Trade) {
+	return trade.dateExit != -1;
 }
 
 export function isValid(trade: Trade) {
