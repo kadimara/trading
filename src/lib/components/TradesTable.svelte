@@ -1,55 +1,69 @@
 <script lang="ts">
-	import { isClosed, type Trade } from '$lib/data/Trade';
+	import { getPnL, status, type Trade } from '$lib/data/Trade';
 	import json from '$lib/data/trades.json';
 
 	type Props = {
-		oninfo: (trade: Trade) => void;
-		onexit: (trade: Trade) => void;
+		onchange: (trade: Trade) => void;
 	};
-	let { oninfo, onexit }: Props = $props();
+	let { onchange }: Props = $props();
 	let trades = json as Trade[];
 
-	type DataTableColumn = {
-		key: keyof Trade;
+	const handleChangeStatus = (trade: Trade) => {
+		if (trade.exit) {
+			trade.pnl = getPnL(trade.longShort, trade.entry, trade.exit, trade.amount);
+		}
+		onchange(trade);
 	};
-
-	const columns: DataTableColumn[] = [
-		{ key: 'dateCreated' },
-		{ key: 'symbol' },
-		{ key: 'timeFrame' },
-		{ key: 'longShort' },
-		{ key: 'account' },
-		{ key: 'amount' },
-		{ key: 'entry' },
-		{ key: 'takeProfit' },
-		{ key: 'stopLoss' },
-		{ key: 'risk' },
-		{ key: 'riskRewardRatio' },
-		{ key: 'pnl' }
-	];
 </script>
 
 <table>
 	<thead>
 		<tr>
-			<th>ACTIONS</th>
-			{#each columns as column, i (i)}
-				<th>{column.key.toUpperCase()}</th>
-			{/each}
+			<th>STATUS</th>
+			<th>DATE</th>
+			<th>SYMBOL</th>
+			<th>TF</th>
+			<th>L / S</th>
+			<th>ACCOUNT</th>
+			<th>AMOUNT</th>
+			<th>ENTRY</th>
+			<th>TP</th>
+			<th>SL</th>
+			<th>EXIT</th>
+			<th>RISK</th>
+			<th>R/R</th>
+			<th>PNL</th>
 		</tr>
 	</thead>
 	<tbody>
 		{#each trades as trade, i (i)}
-			<tr>
+			<tr style="border-bottom: 1px solid red">
 				<td>
-					<button onclick={() => oninfo(trade)}>Info</button>
-					{#if !isClosed(trade)}
-						<button onclick={() => onexit(trade)}>Exit</button>
+					<select bind:value={trade.status} onchange={(e) => handleChangeStatus(trade)}>
+						{#each status as value}
+							<option {value}>{value}</option>
+						{/each}
+					</select>
+				</td>
+				<td>{new Date(trade.date).toLocaleString()}</td>
+				<td>{trade.symbol}</td>
+				<td>{trade.timeFrame}</td>
+				<td>{trade.longShort}</td>
+				<td>${trade.account}</td>
+				<td>${trade.amount}</td>
+				<td>${trade.entry}</td>
+				<td>${trade.takeProfit}</td>
+				<td>${trade.stopLoss}</td>
+				<td>
+					{#if trade.status == 'created' || trade.status == 'open'}
+						<input bind:value={trade.exit} type="number" />
+					{:else}
+						${trade.exit}
 					{/if}
 				</td>
-				{#each columns as column, i (i)}
-					<td>{trade[column.key]}</td>
-				{/each}
+				<td>%{(trade.risk * 100).toFixed(2)}</td>
+				<td>{trade.riskRewardRatio}</td>
+				<td class={trade.pnl == 0 ? '' : trade.pnl < 0 ? 'bg-loss' : 'bg-win'}>${trade.pnl}</td>
 			</tr>
 		{/each}
 	</tbody>
@@ -58,9 +72,20 @@
 <style>
 	td {
 		text-align: center;
+		width: 1%;
+		white-space: nowrap;
 	}
 
-	td button:not(:first-child) {
-		margin-left: 4px;
+	.bg-loss {
+		font-weight: bold;
+		background-color: rgb(121, 43, 43);
+	}
+	.bg-win {
+		font-weight: bold;
+		background-color: rgb(43, 116, 43);
+	}
+
+	input {
+		width: 80px;
 	}
 </style>

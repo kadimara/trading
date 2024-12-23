@@ -1,46 +1,35 @@
 <script lang="ts">
-	import ExitTradeDialog from '$lib/components/ExitTradeDialog.svelte';
-	import NewTradeDialog from '$lib/components/NewTradeDialog.svelte';
+	import AddTradeDialog from '$lib/components/AddTradeDialog.svelte';
 	import TradesTable from '$lib/components/TradesTable.svelte';
+	import UpdateTradeDialog from '$lib/components/UpdateTradeDialog.svelte';
 	import type { Trade } from '$lib/data/Trade';
 	import { TradeApi } from '$lib/data/TradeApi';
 
-	let newTradeDialog = $state<HTMLDialogElement>();
-	let exitTrade = $state<Trade>();
+	let addTradeDialog = $state<AddTradeDialog>();
+	let updateTradeDialog = $state<UpdateTradeDialog>();
 
-	const handleAddClick = () => {
-		newTradeDialog?.showModal();
+	const handleAdd = () => {
+		addTradeDialog?.confirm((trade) => {
+			TradeApi.add(trade);
+		});
 	};
-	const handleAdd = (trade: Trade) => {
-		const trades = TradeApi.getJSON();
-		TradeApi.setJSON([...trades, trade]);
-	};
-	const handleInfoClick = () => {
-		// infoTradeDialog?.showModal();
-	};
-	const handleExitClick = (trade: Trade) => {
-		exitTrade = trade;
-	};
-	const handleExit = (trade: Trade) => {
-		const trades = TradeApi.getJSON();
-		TradeApi.setJSON([...trades, trade]);
+	const handleChange = (trade: Trade) => {
+		updateTradeDialog?.confirm(trade, (trade) => {
+			TradeApi.update(trade);
+		});
 	};
 </script>
 
 <header class="flex-row align-items-center gap-2">
 	<h1>Trading journal v5</h1>
-	<button onclick={handleAddClick}>Add trade</button>
+	<button onclick={handleAdd}>Add trade</button>
 </header>
 
 <div class="containerTable overflow-auto">
-	<TradesTable oninfo={handleInfoClick} onexit={handleExitClick} />
+	<TradesTable onchange={handleChange} />
 </div>
-<NewTradeDialog bind:dialog={newTradeDialog} onadd={handleAdd} />
-{#if exitTrade}
-	{#key exitTrade}
-		<ExitTradeDialog trade={exitTrade} onexit={handleExit} />
-	{/key}
-{/if}
+<AddTradeDialog bind:this={addTradeDialog} />
+<UpdateTradeDialog bind:this={updateTradeDialog} />
 
 <style>
 	header {
