@@ -6,12 +6,12 @@
 	let confirmCallback = $state<(trade: Trade) => void>();
 	let trade = $state<Trade>();
 
-	let report = $state<string>();
-	let note = $state<string>();
+	let report = $state<string>('');
+	let note = $state<string>('');
 
 	const handleUpdate = () => {
 		if (trade != null && typeof confirmCallback == 'function') {
-			confirmCallback(trade);
+			confirmCallback({ ...trade, report: report, note: note });
 			dialog?.close();
 		}
 	};

@@ -4,8 +4,9 @@
 
 	type Props = {
 		onchange: (trade: Trade) => void;
+		ondblclick: (trade: Trade) => void;
 	};
-	let { onchange }: Props = $props();
+	let { onchange, ondblclick }: Props = $props();
 	let trades = json as Trade[];
 
 	const handleChangeStatus = (trade: Trade) => {
@@ -37,13 +38,18 @@
 	</thead>
 	<tbody>
 		{#each trades as trade, i (i)}
-			<tr style="border-bottom: 1px solid red">
+			{@const isEditable = trade.status == 'created' || trade.status == 'open'}
+			<tr style="border-bottom: 1px solid red" ondblclick={() => ondblclick(trade)}>
 				<td>
-					<select bind:value={trade.status} onchange={(e) => handleChangeStatus(trade)}>
-						{#each status as value}
-							<option {value}>{value}</option>
-						{/each}
-					</select>
+					{#if isEditable}
+						<select bind:value={trade.status} onchange={(e) => handleChangeStatus(trade)}>
+							{#each status as value}
+								<option {value}>{value}</option>
+							{/each}
+						</select>
+					{:else}
+						{trade.status}
+					{/if}
 				</td>
 				<td>{new Date(trade.date).toLocaleString()}</td>
 				<td>{trade.symbol}</td>
@@ -70,6 +76,11 @@
 </table>
 
 <style>
+	tr:hover {
+		font-weight: bold;
+		cursor: pointer;
+	}
+
 	td {
 		text-align: center;
 		width: 1%;

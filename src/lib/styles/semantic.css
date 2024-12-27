@@ -36,7 +36,7 @@ button {
 
 dialog {
 	background-color: var(--bg);
-	max-width: 40rem;
+	/* max-width: 40rem; */
 	margin: auto;
 }
 
