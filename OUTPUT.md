@@ -1,1 +1,1 @@
-This is amezing!
+This is amazing! (TYPO)
