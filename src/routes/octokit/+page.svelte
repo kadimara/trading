@@ -1,20 +1,19 @@
 <script lang="ts">
-	import { PAT } from '$env/static/private';
 	import { Octokit } from 'octokit';
 	import { onMount } from 'svelte';
 
+	let pat = $state('');
 	let input = $state('Test');
-
-	const personalAccessToken = PAT;
-	const octokit = new Octokit({
-		auth: personalAccessToken
-	});
 
 	const owner = 'kadimara';
 	const repo = 'trading-journal';
 	const path = 'OUTPUT.md'; // This is the file you want to update
 
 	async function getContent(format: string = 'sha') {
+		const octokit = new Octokit({
+			auth: pat
+		});
+
 		// Check if the file exists and get the SHA for updating
 		const { data } = await octokit.rest.repos.getContent({
 			owner,
@@ -27,6 +26,10 @@
 	}
 
 	async function createOrUpdateFile() {
+		const octokit = new Octokit({
+			auth: pat
+		});
+
 		// const encoder = new TextEncoder();
 		// const encodedContent = encoder.encode(input);
 		const base64Content = btoa(input);
@@ -51,6 +54,10 @@
 	}
 
 	onMount(async () => {
+		const octokit = new Octokit({
+			auth: pat
+		});
+
 		const { data } = await octokit.rest.repos.getContent({
 			mediaType: { format: 'raw' },
 			owner,
@@ -79,6 +86,9 @@
 <header class="flex-row align-items-center gap-2">
 	<h1>Trading journal v5</h1>
 </header>
+<div>
+	<input bind:value={pat} />
+</div>
 <div>
 	<input bind:value={input} />
 	<button onclick={createOrUpdateFile}>Update git</button>
