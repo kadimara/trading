@@ -1,28 +1,46 @@
 <script lang="ts">
-	import AddTradeDialog from '$lib/components/AddTradeDialog.svelte';
-	import InfoTradeDialog from '$lib/components/InfoTradeDialog.svelte';
+	import TradeDialog from '$lib/components/TradeDialog.svelte';
 	import TradesTable from '$lib/components/TradesTable.svelte';
-	import UpdateTradeDialog from '$lib/components/UpdateTradeDialog.svelte';
-	import type { Trade } from '$lib/data/Trade';
+	import { defaultTrade, type Trade } from '$lib/data/Trade';
 	import { TradeApi } from '$lib/data/TradeApi';
+	import { onMount } from 'svelte';
 
-	let addTradeDialog = $state<AddTradeDialog>();
-	let updateTradeDialog = $state<UpdateTradeDialog>();
-	let infoTradeDialog = $state<InfoTradeDialog>();
-
-	const handleAdd = () => {
-		addTradeDialog?.confirm((trade) => {
-			TradeApi.add(trade);
-		});
-	};
-	const handleChange = (trade: Trade) => {
-		updateTradeDialog?.confirm(trade, (trade) => {
-			TradeApi.update(trade);
-		});
+	let dialog = $state<TradeDialog>();
+	let trades = $state<Trade[]>([]);
+	let currentIndex = $state(-1);
+	const handleChange = (trades: Trade[]) => {
+		TradeApi.set(trades);
+		trades = trades;
 	};
 	const handleDblClick = (trade: Trade) => {
-		infoTradeDialog?.show(trade);
+		currentIndex = trades.indexOf(trade);
+		dialog?.show(trade, (trade) => {
+			TradeApi.update(trade);
+			currentIndex = -1;
+		});
 	};
+	const handleAdd = () => {
+		TradeApi.add(defaultTrade);
+	};
+
+	onMount(() => {
+		trades = TradeApi.get();
+
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (currentIndex == -1) {
+				return;
+			}
+
+			if (e.code == 'ArrowLeft') {
+				const trade = trades[currentIndex - 1];
+				trade && handleDblClick(trade);
+			} else if (e.code == 'ArrowRight') {
+				const trade = trades[currentIndex + 1];
+				trade && handleDblClick(trade);
+			}
+		};
+		window.addEventListener('keydown', handleKeyDown);
+	});
 </script>
 
 <header class="flex-row align-items-center gap-2">
@@ -31,11 +49,10 @@
 </header>
 
 <div class="containerTable overflow-auto">
-	<TradesTable onchange={handleChange} ondblclick={handleDblClick} />
+	<TradesTable {trades} onchange={handleChange} ondblclick={handleDblClick} />
 </div>
-<AddTradeDialog bind:this={addTradeDialog} />
-<UpdateTradeDialog bind:this={updateTradeDialog} />
-<InfoTradeDialog bind:this={infoTradeDialog} />
+
+<TradeDialog bind:this={dialog} />
 
 <style>
 	header {

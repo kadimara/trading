@@ -1,5 +1,5 @@
-import type { Trade } from './Trade';
 import json from '$lib/data/trades.json';
+import type { Trade } from './Trade';
 
 export class TradeApi {
 	public static set(trades: Trade[]) {

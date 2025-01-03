@@ -1,7 +1,7 @@
 const taker = 0.0005;
 
-export const status = ['created', 'open', 'closed', 'canceled'] as const;
-export type Status = (typeof status)[number];
+export const statuses = ['created', 'open', 'closed', 'canceled'] as const;
+export type Status = (typeof statuses)[number];
 
 export const longShort = ['long', 'short'] as const;
 export type LongShort = (typeof longShort)[number];
@@ -18,8 +18,8 @@ export type Trade = {
 	report: string;
 	note: string;
 	symbol: Symbol;
-	longShort: LongShort;
 	timeFrame: TimeFrame;
+	longShort: LongShort;
 
 	risk: number;
 	riskRewardRatio: string;
@@ -34,6 +34,26 @@ export type Trade = {
 
 	taker: number;
 	maker: number;
+};
+
+export const defaultTrade: Trade = {
+	status: 'created',
+	date: Date.now(),
+	report: '',
+	note: '',
+	symbol: 'btc',
+	timeFrame: '3min',
+	longShort: 'long',
+	risk: 0,
+	riskRewardRatio: '',
+	account: 0,
+	amount: 0,
+	entry: 0,
+	takeProfit: 0,
+	stopLoss: 0,
+	pnl: 0,
+	taker: taker,
+	maker: 0
 };
 
 /**
@@ -72,7 +92,12 @@ export function getLongShort(entryPrice: number, stopLoss: number): LongShort {
  * @param entry Entry price.
  * @returns
  */
-export function getPnL(longShort: LongShort, entry: number, exit: number, amount: number): number {
+export function getPnL(
+	longShort: LongShort,
+	amount: number | undefined,
+	entry: number | undefined,
+	exit: number | undefined
+): number {
 	if (!amount || !entry || !exit) {
 		return 0;
 	}
