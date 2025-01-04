@@ -8,12 +8,12 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		paths: {
-			base: process.env.NODE_ENV === 'production' ? '/sveltekit-github-pages' : ''
+			base: process.env.NODE_ENV === 'production' ? '/sveltekit-gh-pages' : ''
 		},
 		prerender: {
 			handleHttpError: ({ path, referrer, message }) => {
 				// ignore deliberate link to shiny 404 page
-				if (path === '/sveltekit-github-pages/') {
+				if (path === '/sveltekit-gh-pages/') {
 					return;
 				}
 
