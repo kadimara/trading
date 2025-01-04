@@ -9,11 +9,11 @@ const config = {
 			// options
 			pages: 'build', // Where to output static files
 			assets: 'build', // Where to output static assets
-			fallback: null // Use 'index.html' for fallback if needed
-		})
-		// paths: {
-		// 	base: process.env.NODE_ENV === 'production' ? '/trading-journal' : ''
-		// },
+			fallback: null
+		}),
+		paths: {
+			base: process.env.NODE_ENV === 'production' ? '/trading-journal' : ''
+		}
 	}
 };
 
