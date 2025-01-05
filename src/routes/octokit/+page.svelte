@@ -9,14 +9,14 @@
 
 	let trades = $state<Trade[]>([]);
 
-	const initialize = async () => {
+	const initialize = async (personalAccessToken: string) => {
 		console.log('initialize');
-		octokit = new Octokit({ auth: $personalAccessToken });
+		octokit = new Octokit({ auth: personalAccessToken });
 		user = await getUser(octokit);
 		trades = await getTrades(octokit, user.login);
 	};
 	personalAccessToken.subscribe((value) => {
-		initialize();
+		initialize(value);
 	});
 </script>
 
