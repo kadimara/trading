@@ -1,5 +1,7 @@
 # Trading
 
+[Journal v5 app](https://github.com/kadimara/trading/tree/main/journal "Trading journal app where I can add my trades.")
+
 ## Motivation
 
 - Financieel onafhankelijk. Eigen baas zijn en Lydi kan doen wat ze wil.
