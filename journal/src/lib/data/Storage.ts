@@ -1,13 +1,9 @@
 import { Octokit } from 'octokit';
 import type { Trade } from './Trade';
+import { writable } from 'svelte/store';
 
 const repo = 'trading-journal';
 const path = 'trades.json';
-
-export const getUser = async (octokit: Octokit) => {
-	const { data } = await octokit.rest.users.getAuthenticated();
-	return data;
-};
 
 export const getTrades = async (octokit: Octokit, login: string): Promise<Trade[]> => {
 	const { data } = await octokit.rest.repos.getContent({

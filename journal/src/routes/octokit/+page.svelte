@@ -1,34 +1,14 @@
 <script lang="ts">
-	import { personalAccessToken } from '$lib/data/LocaleStorage';
-	import { getTrades, getUser } from '$lib/data/Storage';
-	import type { Trade } from '$lib/data/Trade';
-	import { Octokit } from 'octokit';
-
-	let octokit = $state<Octokit>();
-	let user = $state<{ login: string }>();
-
-	let trades = $state<Trade[]>([]);
-
-	const initialize = async (personalAccessToken: string) => {
-		console.log('initialize');
-		octokit = new Octokit({ auth: personalAccessToken });
-		user = await getUser(octokit);
-		trades = await getTrades(octokit, user.login);
-	};
-	personalAccessToken.subscribe((value) => {
-		initialize(value);
-	});
+	import { personalAccessToken } from '$lib/spells/LocalStorage.svelte';
 </script>
 
 <header class="flex-row align-items-center gap-2">
-	<h1>Welcome {user?.login}</h1>
+	<h1>Welcome {'user?.login'}</h1>
 </header>
 <div>
-	<input bind:value={$personalAccessToken} />
+	<input bind:value={personalAccessToken.value} />
 </div>
-<div>
-	{JSON.stringify(trades)}
-</div>
+<div></div>
 
 <style>
 	header {
