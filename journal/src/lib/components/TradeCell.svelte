@@ -7,9 +7,10 @@
 		disabled?: boolean;
 		options?: typeof statuses | typeof symbols | typeof timeFrames | string[];
 	};
+	let ref = $state<HTMLTableCellElement>();
 	let { value = $bindable(), type, disabled = true, options = [] }: Props = $props();
 
-	const handleInput = (e: Event & { currentTarget: EventTarget & HTMLTableCellElement }) => {
+	const handleBlur = (e: Event & { currentTarget: EventTarget & HTMLTableCellElement }) => {
 		switch (type) {
 			case 'text':
 				value = e.currentTarget.innerText;
@@ -21,13 +22,18 @@
 				value = new Date(e.currentTarget.innerText).valueOf();
 				break;
 		}
+		// Create a new 'change' event
+		const changeEvent = new Event('change', { bubbles: true });
+		// Dispatch the event
+		ref?.dispatchEvent(changeEvent);
 	};
 </script>
 
 <td
+	bind:this={ref}
 	contenteditable={disabled || type == 'select' ? false : 'plaintext-only'}
 	class={type}
-	onblur={handleInput}
+	onblur={handleBlur}
 	ondblclick={(e) => !disabled && e.stopPropagation()}
 >
 	{#if type == 'text' || type == 'currency'}

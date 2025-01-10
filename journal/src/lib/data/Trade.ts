@@ -34,27 +34,33 @@ export type Trade = {
 
 	taker: number;
 	maker: number;
+
+	[key: string]: any;
 };
 
-export const defaultTrade: Trade = {
-	status: 'created',
-	date: Date.now(),
-	report: '',
-	note: '',
-	symbol: 'btc',
-	timeFrame: '3min',
-	longShort: 'long',
-	risk: 0,
-	riskRewardRatio: '',
-	account: 0,
-	amount: 0,
-	entry: 0,
-	takeProfit: 0,
-	stopLoss: 0,
-	pnl: 0,
-	taker: taker,
-	maker: 0
-};
+type KeyTrade = keyof Trade;
+
+export function getDefaultTrade(): Trade {
+	return {
+		status: 'created',
+		date: Date.now(),
+		report: '',
+		note: '',
+		symbol: 'btc',
+		timeFrame: '3min',
+		longShort: 'long',
+		risk: 0,
+		riskRewardRatio: '',
+		account: 0,
+		amount: 0,
+		entry: 0,
+		takeProfit: 0,
+		stopLoss: 0,
+		pnl: 0,
+		taker: taker,
+		maker: 0
+	};
+}
 
 /**
  * Calculate the risk

@@ -21,6 +21,7 @@
 	let disabled = $derived(state.status == 'closed' || state.status == 'canceled');
 
 	const handleChange = () => {
+		console.log('handle change trade row');
 		onchange({
 			...state,
 			longShort: getLongShort(state.entry, state.stopLoss),
@@ -31,9 +32,14 @@
 	};
 </script>
 
-<tr class={state.status} ondblclick={() => ondblclick(state)} onchange={handleChange}>
+<tr
+	class={state.status}
+	ondblclick={() => ondblclick(state)}
+	onblur={handleChange}
+	onchange={handleChange}
+>
 	<TradeCell type="select" bind:value={state.status} options={statuses} disabled={false} />
-	<TradeCell type="date" bind:value={state.date} {disabled} />
+	<TradeCell type="date" value={state.date} />
 	<TradeCell type="select" bind:value={state.symbol} options={symbols} {disabled} />
 	<TradeCell type="select" bind:value={state.timeFrame} options={timeFrames} {disabled} />
 	<TradeCell type="text" value={state.longShort} />

@@ -35,7 +35,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		{#each trades as trade, i (i)}
+		{#each trades as trade, i (trade.date)}
 			<TradeRow {trade} onchange={(trade) => handleChange(i, trade)} {ondblclick} />
 		{/each}
 	</tbody>
