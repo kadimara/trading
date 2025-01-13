@@ -7,6 +7,7 @@ export class TradeUtils {
 			const index = updatedTrades.findIndex((trade) => trade.date === change.date);
 			if (index !== -1) {
 				updatedTrades[index] = { ...updatedTrades[index], ...change };
+				console.log(index, updatedTrades[index]);
 			} else {
 				updatedTrades.push({ ...getDefaultTrade(), ...change });
 			}

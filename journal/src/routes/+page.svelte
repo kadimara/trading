@@ -22,10 +22,9 @@
 		localChanges.value = TradeUtils.getChanges(trades, git.trades);
 	};
 	const handleDblClick = (trade: Trade) => {
-		currentIndex = trades.indexOf(trade);
+		currentIndex = trades.findIndex((t) => trade.date == t.date);
 		dialog?.show(trade, (updatedTrade) => {
-			const index = trades.findIndex((t) => trade.date == t.date);
-			handleChange(trades.toSpliced(index, 1, updatedTrade));
+			handleChange(trades.toSpliced(currentIndex, 1, updatedTrade));
 			currentIndex = -1;
 		});
 	};
