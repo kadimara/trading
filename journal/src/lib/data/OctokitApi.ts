@@ -43,17 +43,19 @@ export class OctokitApi {
 			if ('sha' in file) {
 				const base64Content = btoa(JSON.stringify(trades));
 				await octokit.rest.repos.createOrUpdateFileContents({
-					owner,
-					repo,
-					path,
-					message: `Trades updated`,
+					owner: owner,
+					repo: repo,
+					path: path,
+					message: `Trades synced`,
 					content: base64Content,
 					sha: file.sha // This is the file's SHA (needed for updates)
 				});
 				console.log('File updated successfully!');
+				return true;
 			}
 		} catch (error) {
 			console.error('An error occurred while setting trades:', error);
 		}
+		return false;
 	}
 }

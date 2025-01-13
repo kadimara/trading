@@ -6,15 +6,16 @@ class LocalStore<T> {
 
 	constructor(key: string, value: T) {
 		this.key = key;
-		this.value = localStorage[key] || value;
+		this.value = value;
+
 		if (browser) {
 			this.value = localStorage[key] ? JSON.parse(localStorage[key]) : value;
+			$effect(() => {
+				if (this.value) {
+					localStorage[key] = JSON.stringify(this.value);
+				}
+			});
 		}
-		$effect(() => {
-			if (this.value) {
-				localStorage[key] = JSON.stringify(this.value);
-			}
-		});
 	}
 }
 
