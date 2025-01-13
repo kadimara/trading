@@ -1,16 +1,24 @@
 <script lang="ts">
 	import { statuses, symbols, timeFrames } from '$lib/data/Trade';
-
+	type CellEvent = Event & { currentTarget: EventTarget & HTMLTableCellElement };
 	type Props = {
 		value: unknown;
 		type: 'text' | 'currency' | 'date' | 'select';
 		disabled?: boolean;
 		options?: typeof statuses | typeof symbols | typeof timeFrames | string[];
+		color?: 'red' | 'green' | '';
 	};
-	let ref = $state<HTMLTableCellElement>();
-	let { value = $bindable(), type, disabled = true, options = [] }: Props = $props();
+	let { value = $bindable(), type, disabled = true, options = [], color = '' }: Props = $props();
 
-	const handleBlur = (e: Event & { currentTarget: EventTarget & HTMLTableCellElement }) => {
+	const handleFocus = (e: CellEvent) => {
+		const element = e.currentTarget;
+		const range = document.createRange();
+		range.selectNodeContents(element);
+		const selection = window.getSelection();
+		selection?.removeAllRanges();
+		selection?.addRange(range);
+	};
+	const handleBlur = (e: CellEvent) => {
 		switch (type) {
 			case 'text':
 				value = e.currentTarget.innerText;
@@ -25,14 +33,14 @@
 		// Create a new 'change' event
 		const changeEvent = new Event('change', { bubbles: true });
 		// Dispatch the event
-		ref?.dispatchEvent(changeEvent);
+		e.currentTarget.dispatchEvent(changeEvent);
 	};
 </script>
 
 <td
-	bind:this={ref}
 	contenteditable={disabled || type == 'select' ? false : 'plaintext-only'}
-	class={type}
+	class={`${type}	${color}`}
+	onfocus={handleFocus}
 	onblur={handleBlur}
 	ondblclick={(e) => !disabled && e.stopPropagation()}
 >
@@ -76,5 +84,12 @@
 	select option {
 		cursor: pointer;
 		background: var(--bg);
+	}
+
+	.red {
+		color: rgb(242, 54, 69);
+	}
+	.green {
+		color: rgb(8, 153, 129);
 	}
 </style>

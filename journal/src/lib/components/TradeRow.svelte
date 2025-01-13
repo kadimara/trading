@@ -55,7 +55,11 @@
 	<TradeCell type="currency" bind:value={trade.exit} {disabled} />
 	<TradeCell type="text" value={'%' + (trade.risk * 100).toFixed(2)} />
 	<TradeCell type="text" value={trade.riskRewardRatio} />
-	<TradeCell type="currency" value={trade.pnl} />
+	<TradeCell
+		type="currency"
+		value={trade.pnl.toFixed(2)}
+		color={trade.pnl == 0 ? '' : trade.pnl < 0 ? 'red' : 'green'}
+	/>
 </tr>
 
 <style>
