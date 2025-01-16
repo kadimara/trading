@@ -5,13 +5,10 @@
 </script>
 
 {#if browser}
-	<main class="flex-column gap-2 align-items-start">
+	<main>
 		{@render children()}
 	</main>
 {/if}
 
 <style>
-	main {
-		height: 100%;
-	}
 </style>

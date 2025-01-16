@@ -46,7 +46,11 @@
 	<TradeCell type="date" value={trade.date} />
 	<TradeCell type="select" bind:value={trade.symbol} options={symbols} {disabled} />
 	<TradeCell type="select" bind:value={trade.timeFrame} options={timeFrames} {disabled} />
-	<TradeCell type="text" value={trade.longShort} />
+	<TradeCell
+		type="text"
+		value={trade.longShort}
+		color={trade.longShort == 'short' ? 'red' : 'green'}
+	/>
 	<TradeCell type="currency" bind:value={trade.account} {disabled} />
 	<TradeCell type="currency" bind:value={trade.amount} {disabled} />
 	<TradeCell type="currency" bind:value={trade.entry} {disabled} />
@@ -63,15 +67,9 @@
 </tr>
 
 <style>
-	tr:hover {
-		font-weight: bold;
+	tr {
 		cursor: pointer;
 	}
-
-	tr:nth-child(odd) {
-		background: var(--accent-bg);
-	}
-
 	tr.canceled {
 		opacity: 0.5;
 	}

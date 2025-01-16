@@ -37,22 +37,24 @@
 		if (result) localChanges.value = [];
 		isSyncing = false;
 	};
-	onMount(() => {
-		const handleKeyDown = (e: KeyboardEvent) => {
-			if (currentIndex == -1) {
-				return;
-			}
+	// Staat uit omdat het irritant is als je een trade bewerkt.
+	// Zorgen dat dit alleen kan als een trade canceled/closed is.
+	// onMount(() => {
+	// 	const handleKeyDown = (e: KeyboardEvent) => {
+	// 		if (currentIndex == -1) {
+	// 			return;
+	// 		}
 
-			if (e.code == 'ArrowLeft') {
-				const trade = trades[currentIndex - 1];
-				trade && handleDblClick(trade);
-			} else if (e.code == 'ArrowRight') {
-				const trade = trades[currentIndex + 1];
-				trade && handleDblClick(trade);
-			}
-		};
-		window.addEventListener('keydown', handleKeyDown);
-	});
+	// 		if (e.code == 'ArrowLeft') {
+	// 			const trade = trades[currentIndex - 1];
+	// 			trade && trade.status && handleDblClick(trade);
+	// 		} else if (e.code == 'ArrowRight') {
+	// 			const trade = trades[currentIndex + 1];
+	// 			trade && handleDblClick(trade);
+	// 		}
+	// 	};
+	// 	window.addEventListener('keydown', handleKeyDown);
+	// });
 </script>
 
 <header class="flex-row align-items-center gap-1">
@@ -72,14 +74,11 @@
 	header {
 		align-self: stretch;
 		margin-top: 16px;
+		margin: 16px 16px 0 16px;
 	}
 	.containerTable {
 		height: 100%;
 		width: 100%;
 		overflow: auto;
-	}
-
-	* {
-		padding: 0px 16px;
 	}
 </style>

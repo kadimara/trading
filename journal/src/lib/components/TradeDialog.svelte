@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { type Trade } from '$lib/data/Trade';
-	import TradeRow from './TradeRow.svelte';
 
 	let dialog = $state<HTMLDialogElement>();
 	let trade = $state<Trade>();
@@ -31,14 +30,16 @@
 <dialog bind:this={dialog} onclose={handleClose}>
 	<div class="flex-column gap-1">
 		{#if trade}
-			<textarea bind:value={trade.note} placeholder="Describe how the trade went" {disabled}
-			></textarea>
-			<input
-				bind:value={trade.report}
-				placeholder="https://www.tradingview.com/x/HEUPOgtN/"
-				{disabled}
-			/>
-			<img src={imageSrc} alt="Chart" />
+			{#key trade?.date}
+				<textarea bind:value={trade.note} placeholder="Describe how the trade went" {disabled}
+				></textarea>
+				<input
+					bind:value={trade.report}
+					placeholder="https://www.tradingview.com/x/HEUPOgtN/"
+					{disabled}
+				/>
+				<img src={imageSrc} alt="Chart" />
+			{/key}
 		{/if}
 	</div>
 </dialog>
@@ -49,6 +50,6 @@
 		min-height: 60%;
 	}
 	img {
-		border: 1px solid var(--text);
+		border: 1px solid var(--color-border);
 	}
 </style>

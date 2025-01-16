@@ -76,14 +76,7 @@
 	}
 
 	select {
-		cursor: pointer;
-		background: inherit;
 		border: none;
-		outline: none;
-	}
-	select option {
-		cursor: pointer;
-		background: var(--bg);
 	}
 
 	.red {
