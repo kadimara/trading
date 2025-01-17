@@ -22,10 +22,11 @@
 		localChanges.value = TradeUtils.getChanges(trades, git.trades);
 	};
 	const handleDblClick = (trade: Trade) => {
-		currentIndex = trades.findIndex((t) => trade.date == t.date);
-		dialog?.show(trade, (updatedTrade) => {
-			handleChange(trades.toSpliced(currentIndex, 1, updatedTrade));
-			currentIndex = -1;
+		dialog?.show(trade, trades, (updatedTrade) => {
+			if (TradeUtils.isEditable(updatedTrade)) {
+				const index = trades.findIndex((t) => trade.date == t.date);
+				handleChange(trades.toSpliced(index, 1, updatedTrade));
+			}
 		});
 	};
 	const handleAdd = () => {
@@ -37,24 +38,6 @@
 		if (result) localChanges.value = [];
 		isSyncing = false;
 	};
-	// Staat uit omdat het irritant is als je een trade bewerkt.
-	// Zorgen dat dit alleen kan als een trade canceled/closed is.
-	// onMount(() => {
-	// 	const handleKeyDown = (e: KeyboardEvent) => {
-	// 		if (currentIndex == -1) {
-	// 			return;
-	// 		}
-
-	// 		if (e.code == 'ArrowLeft') {
-	// 			const trade = trades[currentIndex - 1];
-	// 			trade && trade.status && handleDblClick(trade);
-	// 		} else if (e.code == 'ArrowRight') {
-	// 			const trade = trades[currentIndex + 1];
-	// 			trade && handleDblClick(trade);
-	// 		}
-	// 	};
-	// 	window.addEventListener('keydown', handleKeyDown);
-	// });
 </script>
 
 <header class="flex-row align-items-center gap-1">

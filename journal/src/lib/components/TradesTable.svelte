@@ -52,17 +52,8 @@
 		{#each tradesByMonth as [month, trades]}
 			{@const totalPnl = TradeUtils.getTotalPnl(trades)}
 			<tr class="summary">
-				<td colspan="13"
-					>{month.toUpperCase()}&nbsp;&nbsp;&nbsp;<span style="color: gray"
-						>trades: {trades.length}</span
-					></td
-				>
-				<TradeCell
-					colspan={14}
-					type="currency"
-					value={totalPnl}
-					color={totalPnl > 0 ? 'green' : 'red'}
-				/>
+				<td colspan="13"> {month.toUpperCase()} ({trades.length})</td>
+				<TradeCell type="currency" value={totalPnl} color={totalPnl > 0 ? 'green' : 'red'} />
 			</tr>
 			{#each trades as trade, i (trade.date)}
 				<TradeRow {trade} onchange={(trade) => handleChange(i, trade)} {ondblclick} />

@@ -46,4 +46,8 @@ export class TradeUtils {
 	public static getTotalPnl(trades: Trade[]) {
 		return parseFloat(trades.reduce((acc, trade) => acc + trade.pnl, 0).toFixed(2));
 	}
+
+	public static isEditable(trade: Trade | undefined) {
+		return trade?.status === 'created' || trade?.status === 'open';
+	}
 }
