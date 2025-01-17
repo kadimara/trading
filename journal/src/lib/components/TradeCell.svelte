@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { statuses, symbols, timeFrames } from '$lib/data/Trade';
+	import type { HTMLTdAttributes } from 'svelte/elements';
 	type CellEvent = Event & { currentTarget: EventTarget & HTMLTableCellElement };
 	type Props = {
 		value: unknown;
@@ -7,8 +8,16 @@
 		disabled?: boolean;
 		options?: typeof statuses | typeof symbols | typeof timeFrames | string[];
 		color?: 'red' | 'green' | '';
-	};
-	let { value = $bindable(), type, disabled = true, options = [], color = '' }: Props = $props();
+	} & HTMLTdAttributes;
+
+	let {
+		value = $bindable(),
+		type,
+		disabled = true,
+		options = [],
+		color = '',
+		...props
+	}: Props = $props();
 
 	const handleFocus = (e: CellEvent) => {
 		const element = e.currentTarget;
@@ -43,6 +52,7 @@
 	onfocus={handleFocus}
 	onblur={handleBlur}
 	ondblclick={(e) => !disabled && e.stopPropagation()}
+	{...props}
 >
 	{#if type == 'text' || type == 'currency'}
 		{value}

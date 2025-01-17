@@ -7,7 +7,6 @@ export class TradeUtils {
 			const index = updatedTrades.findIndex((trade) => trade.date === change.date);
 			if (index !== -1) {
 				updatedTrades[index] = { ...updatedTrades[index], ...change };
-				console.log(index, updatedTrades[index]);
 			} else {
 				updatedTrades.push({ ...getDefaultTrade(), ...change });
 			}
@@ -42,5 +41,9 @@ export class TradeUtils {
 		}
 
 		return changes;
+	}
+
+	public static getTotalPnl(trades: Trade[]) {
+		return parseFloat(trades.reduce((acc, trade) => acc + trade.pnl, 0).toFixed(2));
 	}
 }

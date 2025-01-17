@@ -160,7 +160,7 @@ export function createTrade(
 }
 
 function round(value: number, fractionDigits?: number) {
-	return Number(value.toFixed(fractionDigits));
+	return parseFloat(value.toFixed(fractionDigits));
 }
 
 // https://svelte.dev/playground/885653f873284f7880490dcdd1200238?version=3.48.0
