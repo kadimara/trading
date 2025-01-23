@@ -9,7 +9,7 @@ export type LongShort = (typeof longShort)[number];
 export const symbols = ['btc', 'eth', 'ada'] as const;
 export type Symbol = (typeof symbols)[number];
 
-export const timeFrames = ['1min', '3min', '15min'] as const;
+export const timeFrames = ['1min', '3min', '5min', '15min'] as const;
 export type TimeFrame = (typeof timeFrames)[number];
 
 export type Trade = {
