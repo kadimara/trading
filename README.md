@@ -1,6 +1,7 @@
 # Trading
 
 [Journal v5 app](https://github.com/kadimara/trading/tree/main/journal/#readme "Trading journal app where I can add my trades.")
+[Forex factory calendar](https://www.forexfactory.com/calendar)
 
 ## Motivation
 
