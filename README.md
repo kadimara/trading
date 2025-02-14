@@ -43,3 +43,7 @@
 - CHOCH -> Change of character. Trend verandering
 - OB -> Orde block
 - FVG -> Fair value gap
+
+## Tutorials
+
+- [Using Order flow To Trade Volume Profile](https://www.youtube.com/watch?v=OfDhq3uiNjw)
