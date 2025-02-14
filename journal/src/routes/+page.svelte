@@ -5,6 +5,7 @@
 	import { gitStore } from '$lib/spells/GitStore.svelte';
 	import { localStore } from '$lib/spells/LocalStore.svelte';
 	import { TradeUtils } from '$lib/utils/TradeUtils';
+	import { LoaderIcon } from 'svelte-feather-icons';
 
 	import { onMount } from 'svelte';
 	const personalAccessToken = localStore('personalAccessToken', '');
@@ -34,8 +35,12 @@
 	};
 	const handleSync = async () => {
 		isSyncing = true;
-		const result = await git.set(trades);
-		if (result) localChanges.value = [];
+		try {
+			const result = await git.set(trades);
+			if (result) localChanges.value = [];
+		} catch (e) {
+			alert(e);
+		}
 		isSyncing = false;
 	};
 </script>
@@ -44,7 +49,13 @@
 	<h1 class="flexible">Trading journal v5</h1>
 	<input bind:value={personalAccessToken.value} placeholder="Git personal access token" />
 	<button onclick={handleAdd}>Add</button>
-	<button onclick={handleSync} disabled={!canSync || isSyncing}>Sync</button>
+	<button onclick={handleSync} disabled={!canSync || isSyncing}>
+		{#if isSyncing}
+			<LoaderIcon />
+		{:else}
+			Sync
+		{/if}
+	</button>
 </header>
 
 <div class="containerTable overflow-auto">
