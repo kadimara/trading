@@ -40,18 +40,23 @@ export type Trade = {
 
 type KeyTrade = keyof Trade;
 
-export function getDefaultTrade(): Trade {
+/**
+ * Default trade op basis van trade als die is meegestuurd.
+ * @param trade
+ * @returns
+ */
+export function getDefaultTrade(trade: Trade | null = null): Trade {
 	return {
 		status: 'created',
 		date: Date.now(),
 		report: '',
 		note: '',
-		symbol: 'btc',
-		timeFrame: '3min',
+		symbol: trade?.symbol || 'btc',
+		timeFrame: trade?.timeFrame || '5min',
 		longShort: 'long',
 		risk: 0,
 		riskRewardRatio: '',
-		account: 0,
+		account: trade?.account || 0,
 		amount: 0,
 		entry: 0,
 		takeProfit: 0,

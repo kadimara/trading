@@ -31,7 +31,7 @@
 		});
 	};
 	const handleAdd = () => {
-		localChanges.value = [getDefaultTrade(), ...localChanges.value];
+		localChanges.value = [getDefaultTrade(trades[0]), ...localChanges.value];
 	};
 	const handleSync = async () => {
 		isSyncing = true;
@@ -47,7 +47,11 @@
 
 <header class="flex-row align-items-center gap-1">
 	<h1 class="flexible">Trading journal v5</h1>
-	<input bind:value={personalAccessToken.value} placeholder="Git personal access token" />
+	<input
+		class="patInput"
+		bind:value={personalAccessToken.value}
+		placeholder="Git personal access token"
+	/>
 	<button onclick={handleAdd}>Add</button>
 	<button onclick={handleSync} disabled={!canSync || isSyncing}>
 		{#if isSyncing}
@@ -74,5 +78,13 @@
 		height: 100%;
 		width: 100%;
 		overflow: auto;
+	}
+
+	.patInput {
+		content-visibility: hidden;
+	}
+	.patInput:hover,
+	.patInput:focus {
+		content-visibility: visible;
 	}
 </style>
