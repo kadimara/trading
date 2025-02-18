@@ -2,6 +2,9 @@
 	display: flex;
 	flex-direction: row;
 }
+.flex-wrap {
+	flex-wrap: wrap;
+}
 .flex-column {
 	display: flex;
 	flex-direction: column;
