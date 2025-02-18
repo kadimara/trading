@@ -7,7 +7,6 @@
 	import { TradeUtils } from '$lib/utils/TradeUtils';
 	import { LoaderIcon } from 'svelte-feather-icons';
 
-	import { onMount } from 'svelte';
 	const personalAccessToken = localStore('personalAccessToken', '');
 	const localChanges = localStore('trades', [] as Partial<Trade>[]);
 	const git = $derived(gitStore(personalAccessToken.value));

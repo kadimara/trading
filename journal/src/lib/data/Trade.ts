@@ -1,6 +1,6 @@
 const taker = 0.0005;
 
-export const statuses = ['created', 'open', 'closed', 'canceled'] as const;
+export const statuses = ['created', 'open', 'reflecting', 'closed', 'canceled'] as const;
 export type Status = (typeof statuses)[number];
 
 export const longShort = ['long', 'short'] as const;
@@ -15,8 +15,12 @@ export type TimeFrame = (typeof timeFrames)[number];
 export type Trade = {
 	status: Status;
 	date: number;
-	report: string;
-	note: string;
+
+	plan: string;
+	reflection: string;
+	link: string;
+	htfLink: string;
+
 	symbol: Symbol;
 	timeFrame: TimeFrame;
 	longShort: LongShort;
@@ -49,8 +53,10 @@ export function getDefaultTrade(trade: Trade | null = null): Trade {
 	return {
 		status: 'created',
 		date: Date.now(),
-		report: '',
-		note: '',
+		link: '',
+		htfLink: '',
+		plan: '',
+		reflection: '',
 		symbol: trade?.symbol || 'btc',
 		timeFrame: trade?.timeFrame || '5min',
 		longShort: 'long',
@@ -128,45 +134,20 @@ export function getRiskRewardRatio(entry: number, takeProfit: number, stopLoss: 
 	return numerator + ' / ' + denominator;
 }
 
-export function createTrade(
-	note: string,
-	account: number,
-	amount: number,
-	entry: number,
-	takeProfit: number,
-	stopLoss: number,
-	symbol: Symbol = 'btc',
-	timeFrame: TimeFrame = '15min'
-): Trade {
-	const taker = 0.0005;
-	const longShort = getLongShort(entry, stopLoss);
-	const risk = getRisk(account, amount, entry, stopLoss);
-	const riskRewardRatio = getRiskRewardRatio(entry, takeProfit, stopLoss);
-
-	return {
-		status: 'created',
-		date: Date.now(),
-		report: '',
-		note: note,
-		symbol: symbol,
-		longShort: longShort,
-		timeFrame: timeFrame,
-		risk: risk,
-		riskRewardRatio: riskRewardRatio,
-		account: account,
-		amount: amount,
-		entry: entry,
-		takeProfit: takeProfit,
-		stopLoss: stopLoss,
-		pnl: 0,
-		taker: taker,
-		maker: 0
-	};
-}
-
 function round(value: number, fractionDigits?: number) {
 	return parseFloat(value.toFixed(fractionDigits));
 }
 
 // https://svelte.dev/playground/885653f873284f7880490dcdd1200238?version=3.48.0
 // https://svelte.dev/docs/svelte/v5-migration-guide
+
+enum PreTradeTags {
+	'entry price' = 'entry price',
+	'stop loss' = 'stop loss',
+	'take profit' = 'take profit',
+	'risk' = 'risk'
+}
+
+enum TradeTags {
+	'test' = 'test test'
+}

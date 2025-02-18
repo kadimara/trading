@@ -1,20 +1,19 @@
 <script lang="ts">
 	import { type Trade } from '$lib/data/Trade';
-	import { TradeUtils } from '$lib/utils/TradeUtils';
 	import { onMount } from 'svelte';
+	import InputChart from './InputChart.svelte';
+	import InputTags from './InputTags.svelte';
 
 	let dialog = $state<HTMLDialogElement>();
 	let trade = $state<Trade>();
 	let trades = $state.raw<Trade[]>([]);
-
-	let editable = $derived(TradeUtils.isEditable(trade));
 
 	let callback = $state((trade: Trade) => {});
 	let disabled = $derived(trade == null || trade.status == 'closed' || trade.status == 'canceled');
 	let imageSrc = $state('');
 
 	$effect(() => {
-		const results = trade?.report.match(/(?<=https:\/\/www.tradingview.com\/x\/)(.*)(?=\/)/g);
+		const results = trade?.link.match(/(?<=https:\/\/www.tradingview.com\/x\/)(.*)(?=\/)/g);
 		const result = results?.[0];
 		const char = result?.[0]?.toLowerCase();
 		imageSrc = `https://s3.tradingview.com/snapshots/${char}/${result}.png`;
@@ -33,7 +32,7 @@
 	};
 
 	const handleKeyDown = (e: KeyboardEvent) => {
-		if (editable) {
+		if (!disabled) {
 			return;
 		}
 		if (e.code == 'ArrowLeft' || e.code == 'ArrowRight') {
@@ -50,33 +49,39 @@
 </script>
 
 <dialog bind:this={dialog} onclose={handleClose}>
-	<div class="flex-column gap-1">
-		{#if trade}
-			{#key trade?.date}
-				{#if editable}
-					<textarea bind:value={trade.note} placeholder="Describe how the trade went" {disabled}
-					></textarea>
-					<input
-						bind:value={trade.report}
-						placeholder="https://www.tradingview.com/x/HEUPOgtN/"
+	{#if trade}
+		{#key trade?.date}
+			<div class="flex-column gap-1">
+				<InputTags bind:value={trade.plan} placeholder="Plan of the trade" {disabled} />
+				<InputTags bind:value={trade.reflection} placeholder="Reflection of the trade" {disabled} />
+				<hr />
+				<div class="flex-row gap-1 charts">
+					<InputChart
+						bind:value={trade.htfLink}
+						placeholder="Higher time frame https://www.tradingview.com/x/HEUPOgtN/"
 						{disabled}
 					/>
-				{:else}
-					<p>{trade.note}</p>
-					<a href={trade.report} target="_blank">https://www.tradingview.com/x/HEUPOgtN/</a>
-				{/if}
-				<img src={imageSrc} alt="Chart" />
-			{/key}
-		{/if}
-	</div>
+					<hr class="vertical" />
+					<InputChart
+						bind:value={trade.link}
+						placeholder="Link https://www.tradingview.com/x/HEUPOgtN/"
+						{disabled}
+					/>
+				</div>
+			</div>
+		{/key}
+	{/if}
 </dialog>
 
 <style>
 	dialog {
-		width: 90%;
-		min-height: 60%;
+		width: 100%;
+		height: 100vh;
 	}
-	img {
-		border: 1px solid var(--color-border);
+	.flex-column {
+		height: 100%;
+	}
+	.flex-row {
+		height: 100%;
 	}
 </style>

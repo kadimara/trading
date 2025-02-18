@@ -22,7 +22,9 @@
 		trade = tradeProp;
 	});
 
-	let disabled = $derived(trade.status == 'closed' || trade.status == 'canceled');
+	let disabled = $derived(
+		trade.status == 'reflecting' || trade.status == 'closed' || trade.status == 'canceled'
+	);
 
 	const handleChange = () => {
 		trade = {
