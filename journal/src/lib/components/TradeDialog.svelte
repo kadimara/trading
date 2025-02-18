@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { planTags, reflectionTags } from '$lib/data/Tags';
 	import { type Trade } from '$lib/data/Trade';
 	import { onMount } from 'svelte';
 	import InputChart from './InputChart.svelte';
@@ -10,14 +11,6 @@
 
 	let callback = $state((trade: Trade) => {});
 	let disabled = $derived(trade == null || trade.status == 'closed' || trade.status == 'canceled');
-	let imageSrc = $state('');
-
-	$effect(() => {
-		const results = trade?.link.match(/(?<=https:\/\/www.tradingview.com\/x\/)(.*)(?=\/)/g);
-		const result = results?.[0];
-		const char = result?.[0]?.toLowerCase();
-		imageSrc = `https://s3.tradingview.com/snapshots/${char}/${result}.png`;
-	});
 
 	const handleClose = () => {
 		callback(trade as Trade);
@@ -52,8 +45,18 @@
 	{#if trade}
 		{#key trade?.date}
 			<div class="flex-column gap-1">
-				<InputTags bind:value={trade.plan} placeholder="Plan of the trade" {disabled} />
-				<InputTags bind:value={trade.reflection} placeholder="Reflection of the trade" {disabled} />
+				<InputTags
+					bind:value={trade.plan}
+					suggestions={planTags}
+					placeholder="Plan of the trade"
+					{disabled}
+				/>
+				<InputTags
+					bind:value={trade.reflection}
+					suggestions={reflectionTags}
+					placeholder="Reflection of the trade"
+					{disabled}
+				/>
 				<hr />
 				<div class="flex-row gap-1 charts">
 					<InputChart
