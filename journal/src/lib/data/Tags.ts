@@ -1,28 +1,32 @@
 export const planTags = [
-	'Entry in price',
-	'Long',
-	'Short',
-	'Reversal',
-	'Gain',
-	'Loss',
+	'Accumulation fase',
 	'Breakout',
+	'Consolidation',
+	'Distribution fase',
+	'Downtrend',
+	'Entry in price',
+	'Gain',
+	'Impulse down',
+	'Impulse up',
+	'Long',
+	'Loss',
+	'Momentum decreases',
 	'Pullback',
-	'Trend Continuation',
-	'Range Bound',
-	'News Event',
-	'Technical Pattern',
-	'Fundamental Analysis'
+	'Range high',
+	'Range low',
+	'Resistance',
+	'Reversal',
+	'Short',
+	'Support',
+	'Trend',
+	'Uptrend',
+	'Void'
 ];
 
 export const reflectionTags = [
-	'Poor market conditions',
-	'Incorrect analysis',
-	'Emotional decision-making',
-	'Technical issues',
-	'Unexpected news events',
-	'Poor risk management',
-	'Entry/exit timing errors',
-	'Overtrading',
-	'Lack of preparation',
-	'Following bad advice'
+	'FOMO',
+	'Fear of losing profits',
+	'Front runner',
+	'No plan',
+	"Stop loss didn't cover enough"
 ];
