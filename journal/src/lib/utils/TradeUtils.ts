@@ -51,8 +51,4 @@ export class TradeUtils {
 				.toFixed(2)
 		);
 	}
-
-	public static isEditable(trade: Trade | undefined) {
-		return trade?.status === 'created' || trade?.status === 'open';
-	}
 }

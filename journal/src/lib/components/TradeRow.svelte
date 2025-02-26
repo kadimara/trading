@@ -72,6 +72,7 @@
 		type="currency"
 		value={trade.pnl.toFixed(2)}
 		color={trade.pnl == 0 ? '' : trade.pnl < 0 ? 'red' : 'green'}
+		title={((100 / trade.account) * trade.pnl).toFixed(2) + '%'}
 	/>
 </tr>
 

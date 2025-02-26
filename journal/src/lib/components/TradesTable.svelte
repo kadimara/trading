@@ -51,9 +51,15 @@
 	<tbody>
 		{#each tradesByMonth as [month, trades]}
 			{@const totalPnl = TradeUtils.getTotalPnl(trades)}
+			{@const percentage = (100 / trades[trades.length - 1].account) * totalPnl}
 			<tr class="summary">
 				<td colspan="13"> {month.toUpperCase()} ({trades.length})</td>
-				<TradeCell type="currency" value={totalPnl} color={totalPnl > 0 ? 'green' : 'red'} />
+				<TradeCell
+					type="currency"
+					value={totalPnl}
+					color={totalPnl > 0 ? 'green' : 'red'}
+					title={percentage.toFixed(2) + '%'}
+				/>
 			</tr>
 			{#each trades as trade, i (trade.date)}
 				<TradeRow {trade} onchange={(trade) => handleChange(i, trade)} {ondblclick} />
