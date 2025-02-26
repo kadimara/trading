@@ -28,5 +28,6 @@ export const reflectionTags = [
 	'Fear of losing profits',
 	'Front runner',
 	'No plan',
-	"Stop loss didn't cover enough"
+	"Stop loss didn't cover enough",
+	'No support/resistance level'
 ];

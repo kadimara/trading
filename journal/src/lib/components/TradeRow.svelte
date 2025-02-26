@@ -27,12 +27,19 @@
 	);
 
 	const handleChange = () => {
+		const pnl1 = getPnL(trade.longShort, trade.amount / 2, trade.entry, trade.exit);
+		const pnl2 = getPnL(
+			trade.longShort,
+			trade.amount / 2,
+			trade.entry,
+			trade.takeProfitHalf || trade.exit
+		);
 		trade = {
 			...trade,
 			longShort: getLongShort(trade.entry, trade.stopLoss),
 			risk: getRisk(trade.account, trade.amount, trade.entry, trade.stopLoss),
 			riskRewardRatio: getRiskRewardRatio(trade.entry, trade.takeProfit, trade.stopLoss),
-			pnl: getPnL(trade.longShort, trade.amount, trade.entry, trade.exit)
+			pnl: pnl1 + pnl2
 		};
 		onchange($state.snapshot(trade));
 	};
@@ -58,9 +65,9 @@
 	<TradeCell type="currency" bind:value={trade.entry} {disabled} />
 	<TradeCell type="currency" bind:value={trade.takeProfit} {disabled} />
 	<TradeCell type="currency" bind:value={trade.stopLoss} {disabled} />
+	<TradeCell type="currency" bind:value={trade.takeProfitHalf} {disabled} />
 	<TradeCell type="currency" bind:value={trade.exit} {disabled} />
 	<TradeCell type="text" value={'%' + (trade.risk * 100).toFixed(2)} />
-	<TradeCell type="text" value={trade.riskRewardRatio} />
 	<TradeCell
 		type="currency"
 		value={trade.pnl.toFixed(2)}

@@ -42,9 +42,9 @@
 			<th>ENTRY</th>
 			<th>TP</th>
 			<th>SL</th>
+			<th>TP 1/2</th>
 			<th>EXIT</th>
 			<th>RISK</th>
-			<th>R/R</th>
 			<th>PNL</th>
 		</tr>
 	</thead>

@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { getDefaultTrade, type Trade } from '$lib/data/Trade';
+import { getDefaultTrade, getPnL, type Trade } from '$lib/data/Trade';
 export class TradeUtils {
 	public static combineChanges(changes: Partial<Trade>[], remote: Trade[]): Trade[] {
 		const updatedTrades = [...remote];
@@ -44,7 +44,12 @@ export class TradeUtils {
 	}
 
 	public static getTotalPnl(trades: Trade[]) {
-		return parseFloat(trades.reduce((acc, trade) => acc + trade.pnl, 0).toFixed(2));
+		return parseFloat(
+			trades
+				.filter((trade) => trade.status != 'canceled')
+				.reduce((acc, trade) => acc + trade.pnl, 0)
+				.toFixed(2)
+		);
 	}
 
 	public static isEditable(trade: Trade | undefined) {

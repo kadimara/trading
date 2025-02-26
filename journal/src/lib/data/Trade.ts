@@ -34,6 +34,7 @@ export type Trade = {
 	takeProfit: number;
 	stopLoss: number;
 	exit?: number;
+	takeProfitHalf?: number;
 	pnl: number;
 
 	taker: number;
