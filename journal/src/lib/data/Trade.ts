@@ -1,6 +1,6 @@
 const taker = 0.0005;
 
-export const statuses = ['created', 'open', 'reflecting', 'closed', 'canceled'] as const;
+export const statuses = ['created', 'open', 'closed', 'canceled'] as const;
 export type Status = (typeof statuses)[number];
 
 export const longShort = ['long', 'short'] as const;

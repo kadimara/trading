@@ -22,9 +22,7 @@
 		trade = tradeProp;
 	});
 
-	let disabled = $derived(
-		trade.status == 'reflecting' || trade.status == 'closed' || trade.status == 'canceled'
-	);
+	let disabled = $derived(trade.status == 'closed' || trade.status == 'canceled');
 
 	const handleChange = () => {
 		const pnl1 = getPnL(trade.longShort, trade.amount / 2, trade.entry, trade.exit);

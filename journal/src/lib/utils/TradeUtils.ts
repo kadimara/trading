@@ -1,5 +1,4 @@
-// @ts-nocheck
-import { getDefaultTrade, getPnL, type Trade } from '$lib/data/Trade';
+import { getDefaultTrade, type Trade } from '$lib/data/Trade';
 export class TradeUtils {
 	public static combineChanges(changes: Partial<Trade>[], remote: Trade[]): Trade[] {
 		const updatedTrades = [...remote];
