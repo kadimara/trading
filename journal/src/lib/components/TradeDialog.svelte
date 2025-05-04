@@ -25,7 +25,7 @@
 	};
 
 	const handleKeyDown = (e: KeyboardEvent) => {
-		if (!disabled) {
+		if (!disabled || document.activeElement?.tagName == 'INPUT') {
 			return;
 		}
 		if (e.code == 'ArrowLeft' || e.code == 'ArrowRight') {
@@ -55,7 +55,6 @@
 					bind:value={trade.reflection}
 					suggestions={reflectionTags}
 					placeholder="Reflection of the trade"
-					{disabled}
 				/>
 				<hr />
 				<div class="flex-row gap-1 charts">

@@ -318,6 +318,7 @@ td,
 th {
 	border-bottom: 0.1rem solid var(--color-border);
 	padding: 0 1.5rem;
+	text-align: center;
 }
 
 thead tr {

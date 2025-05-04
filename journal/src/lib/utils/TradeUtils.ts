@@ -50,4 +50,12 @@ export class TradeUtils {
 				.toFixed(2)
 		);
 	}
+
+	public static getAvarageAccount(trades: Trade[]) {
+		return Math.round(
+			trades
+				.filter((trade) => trade.status != 'canceled')
+				.reduce((acc, trade) => acc + trade.account, 0) / trades.length
+		);
+	}
 }

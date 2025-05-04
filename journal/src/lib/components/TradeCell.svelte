@@ -72,9 +72,6 @@
 </td>
 
 <style>
-	td {
-		text-align: center;
-	}
 	td[contenteditable='plaintext-only'] {
 		cursor: text;
 	}

@@ -1,0 +1,24 @@
+:root {
+	--color-red: #f23645;
+	--color-green: #089981;
+}
+
+.long,
+.pnl1 {
+	color: var(--color-green);
+}
+
+.short,
+.pnl-1 {
+	color: var(--color-red);
+}
+
+.bg-long,
+.bg-pnl1 {
+	background-color: var(--color-green);
+}
+
+.bg-short,
+.bg-pnl-1 {
+	background-color: var(--color-red);
+}

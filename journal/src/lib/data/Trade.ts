@@ -12,6 +12,11 @@ export type Symbol = (typeof symbols)[number];
 export const timeFrames = ['1min', '3min', '5min', '15min'] as const;
 export type TimeFrame = (typeof timeFrames)[number];
 
+export type Exit = {
+	price: number;
+	amount: number;
+};
+
 export type Trade = {
 	status: Status;
 	date: number;
@@ -26,15 +31,23 @@ export type Trade = {
 	longShort: LongShort;
 
 	risk: number;
-	riskRewardRatio: string;
 
 	account: number;
 	amount: number;
 	entry: number;
-	takeProfit: number;
 	stopLoss: number;
+
+	exit1?: Exit;
+	exit2?: Exit;
+	exit3?: Exit;
+
+	// This can go?
+	takeProfit?: number;
+	riskRewardRatio?: string;
+	// Refactor data
 	exit?: number;
 	takeProfitHalf?: number;
+
 	pnl: number;
 
 	taker: number;
@@ -66,7 +79,6 @@ export function getDefaultTrade(trade: Trade | null = null): Trade {
 		account: trade?.account || 0,
 		amount: 0,
 		entry: 0,
-		takeProfit: 0,
 		stopLoss: 0,
 		pnl: 0,
 		taker: taker,
@@ -110,17 +122,22 @@ export function getLongShort(entryPrice: number, stopLoss: number): LongShort {
  * @param entry Entry price.
  * @returns
  */
-export function getPnL(
-	longShort: LongShort,
-	amount: number | undefined,
-	entry: number | undefined,
-	exit: number | undefined
-): number {
-	if (!amount || !entry || !exit) {
+export function getPnL({ longShort, entry, exit1, exit2, exit3 }: Trade): number {
+	if (!entry) {
 		return 0;
 	}
-	const pnl = amount - (exit / entry) * amount;
-	return round(longShort == 'long' ? pnl * -1 : pnl, 2);
+	const pnl1 = getPnlExit(exit1, entry, longShort);
+	const pnl2 = getPnlExit(exit2, entry, longShort);
+	const pnl3 = getPnlExit(exit3, entry, longShort);
+	return round(pnl1 + pnl2 + pnl3, 2);
+}
+
+function getPnlExit(exit: Exit | undefined, entry: number, longShort: LongShort): number {
+	if (!exit || !entry) {
+		return 0;
+	}
+	const pnl = exit.amount - (exit.price / entry) * exit.amount;
+	return longShort == 'long' ? pnl * -1 : pnl;
 }
 
 export function getRiskRewardRatio(entry: number, takeProfit: number, stopLoss: number): string {
