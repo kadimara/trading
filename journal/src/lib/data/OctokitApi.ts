@@ -3,7 +3,7 @@ import type { Trade } from './Trade';
 
 const repo = 'trading';
 const path = 'trades.json';
-const branch = 'database_dev';
+const branch = 'database';
 
 export class OctokitApi {
 	public static async getUser(octokit: Octokit) {
