@@ -31,6 +31,13 @@
 - Never risk more then 1% of the account.
 - Stop trading for the week after 10% loss.
 
+## Fees
+
+- Maker: 0.000%
+- Taker: 0.045%
+
+A Maker order is a placed order that is not bought out immediately but remains in the list of orders to be executed in the future instead. Limit and stop orders can be either a Taker or a Maker transaction depending on whether this order is part of the order book (if it took part in its formation, then it is considered a Maker order) or it has executed an order that was already in the order book” (then it is considered a Taker order).
+
 ## Education
 
 - Keywords
