@@ -6,25 +6,30 @@
 
 ## Motivation
 
-- Financieel onafhankelijk. Eigen baas zijn en Lydi kan doen wat ze wil.
-- Meer tijd voor Lydi en de kinderen.
-- Mogelijkheid om overal te werken.
-- Niet het standaard doen wat de overheid wilt dat je doet.
+- Financially independent. Own boss.
+- Lydi can do what she wants.
+- More time for Lydi and the kids.
+- Ability to work anywhere.
+- Not doing the standard thing the government wants you to do.
 
 ## Strategy
 
-- Bepaal key levels op de hogere time frames: “daily”, "weekly".
-- Bepaal de trend op de hogere time frames: “daily”, "weekly".
-- Timeframes
-- Weekly/daily ➡
-- 4hr/1hr ➡
-- 15min/3min/1min ➡
+- Lower time frame (LTF) + higher time frame (HTF) with ratio 1:4/6. So 3min + 15min has a ratio of 1:5.
+- Define support and resistance (s/r) first on the HTF and polish on the LTF. Tip: use the line chart. \
+  Exmaple: https://www.tradingview.com/x/cCvJ74Sy/
+- Wait for a pattern on a s/r line. Patterns: 
+  - Pinbar candle stick (reversal or trend continuation)
+  - Engulfing candle stick (reversal)
+- Entry above or below the candle stick in the direction of the market with a stop limit order.
+- Stop loss below ro above the candle stick low.
+- Take profit on the next or second level based on the risk reward and momentum.
+- Risk always 1% of the account.
 
 ## Managing risk
 
-- Bij het maken van een order altijd een market order stop loss toevoegen.
-- Nooit meer dan 1% riskeren per trade.
-- Entry -> Take profit -> Stop loss
+- Always put a market order as stop loss.
+- Never risk more then 1% of the account.
+- Stop trading for the week after 10% loss.
 
 ## Education
 
@@ -43,7 +48,3 @@
 - CHOCH -> Change of character. Trend verandering
 - OB -> Orde block
 - FVG -> Fair value gap
-
-## Tutorials
-
-- [Using Order flow To Trade Volume Profile](https://www.youtube.com/watch?v=OfDhq3uiNjw)
