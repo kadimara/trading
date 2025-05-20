@@ -40,9 +40,8 @@
 			<th>AMOUNT</th>
 			<th>ENTRY</th>
 			<th>SL</th>
-			<th>EXIT 1</th>
-			<th>EXIT 2</th>
-			<th>EXIT 3</th>
+			<th colspan="2">EXIT 1</th>
+			<th colspan="2">EXIT 2</th>
 			<th>RISK</th>
 			<th>PNL</th>
 		</tr>
@@ -53,7 +52,7 @@
 			{@const percentage = (100 / TradeUtils.getAvarageAccount(trades)) * totalPnl}
 			<tr class="summary">
 				<td> {month.toUpperCase()} ({trades.length})</td>
-				<td colspan="12"></td>
+				<td colspan="13"></td>
 				<td class="pnl{Math.sign(totalPnl)}" title={percentage.toFixed(2) + '%'}>${totalPnl}</td>
 			</tr>
 			{#each trades as trade, i (trade.date)}

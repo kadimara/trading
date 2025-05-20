@@ -1,7 +1,7 @@
 <script lang="ts">
 	import TradeDialog from '$lib/components/TradeDialog.svelte';
 	import TradesTable from '$lib/components/TradesTable.svelte';
-	import { getDefaultTrade, type Trade } from '$lib/data/Trade';
+	import { type Trade } from '$lib/data/Trade';
 	import { gitStore } from '$lib/spells/GitStore.svelte';
 	import { localStore } from '$lib/spells/LocalStore.svelte';
 	import { TradeUtils } from '$lib/utils/TradeUtils';
@@ -30,7 +30,7 @@
 		});
 	};
 	const handleAdd = () => {
-		localChanges.value = [getDefaultTrade(trades[0]), ...localChanges.value];
+		localChanges.value = [TradeUtils.getDefaultTrade(trades[0]), ...localChanges.value];
 	};
 	const handleSync = async () => {
 		isSyncing = true;
