@@ -34,7 +34,7 @@
 		var amount = Math.round(Number(parts[0])) || 0;
 		var price = Math.round(Number(parts[1])) || 0;
 		if (price || amount) {
-			exit = { ...exit, price, amount, type: 'maker' };
+			exit = { price, amount, type: 'maker' };
 		} else {
 			exit = undefined;
 		}
