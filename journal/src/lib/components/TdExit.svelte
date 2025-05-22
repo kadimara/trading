@@ -11,7 +11,9 @@
 		disabled?: boolean;
 	} & HTMLTdAttributes;
 	let { exit = $bindable(), disabled = true, ...props }: Props = $props();
-	let fee = $derived(exit ? TradeUtils.round(fees[exit.type] * (exit.amount || 0), 2) : 0);
+	const fee = $derived(exit ? TradeUtils.round(fees[exit.type] * (exit.amount || 0), 2) : 0);
+
+	const value = $derived(exit ? `${Math.round(exit.amount)} / ${Math.round(exit.price)}` : '');
 
 	const dispatchChangeEvent = (e: CellEvent) => {
 		// Create a new 'change' event
@@ -34,7 +36,7 @@
 		var amount = Math.round(Number(parts[0])) || 0;
 		var price = Math.round(Number(parts[1])) || 0;
 		if (price || amount) {
-			exit = { price, amount, type: 'maker' };
+			exit = { price, amount, type: exit?.type || 'maker' };
 		} else {
 			exit = undefined;
 		}
@@ -59,13 +61,12 @@
 	onblur={handleBlur}
 	ondblclick={(e) => !disabled && e.stopPropagation()}
 	{...props}
-	class="input"
 >
 	{#if exit}
 		{#if disabled}
-			${exit.amount} / ${exit.price}
+			${value}
 		{:else}
-			{exit.amount} / {exit.price}
+			{value}
 		{/if}
 	{/if}
 </td>
@@ -94,9 +95,6 @@
 		white-space: nowrap;
 	}
 
-	/* td:not(.fees) {
-		padding-right: 0;
-	} */
 	td.fees {
 		padding-left: 0;
 	}

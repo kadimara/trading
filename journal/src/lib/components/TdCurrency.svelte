@@ -36,7 +36,7 @@
 	{#if disabled}
 		${Math.round(value)}
 	{:else}
-		{value}
+		{Math.round(value)}
 	{/if}
 </td>
 
