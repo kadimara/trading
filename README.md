@@ -1,8 +1,10 @@
-# Trading
+# Trade Playbook
 
 [Journal v5 app](https://github.com/kadimara/trading/tree/main/journal/#readme "Trading journal app where I can add my trades.")
 
 [Forex factory calendar](https://www.forexfactory.com/calendar)
+
+---
 
 ## Motivation
 
@@ -12,31 +14,51 @@
 - Ability to work anywhere.
 - Not doing the standard thing the government wants you to do.
 
-## Strategy
+---
 
-- Lower time frame (LTF) + higher time frame (HTF) with ratio 1:4/6. So 3min + 15min has a ratio of 1:5.
-- Define support and resistance (s/r) first on the HTF and polish on the LTF. Tip: use the line chart. \
-  Exmaple: https://www.tradingview.com/x/cCvJ74Sy/
-- Wait for a pattern on a s/r line. Patterns: 
-  - Pinbar candle stick (reversal or trend continuation)
-  - Engulfing candle stick (reversal)
-- Entry above or below the candle stick in the direction of the market with a stop limit order.
-- Stop loss below ro above the candle stick low.
-- Take profit on the next or second level based on the risk reward and momentum.
-- Risk always 1% of the account.
+## 🔍 Pre-Market Prep (1H TF)
+- Define trend: ↑ Up, ↓ Down, ↔ Sideways
+- Draw 1H range and mark:
+  - 🟩 Cheap Zone (Bottom 33%)
+  - 🟥 Expensive Zone (Top 33%)
+  - ⚪ Equilibrium Zone (Middle 33%)
+- Set alerts when price enters 🟩 or 🟥
+- Log the plan in journal: Bias, zones, triggers
 
-## Managing risk
+---
 
-- Always put a market order as stop loss.
-- Never risk more then 1% of the account.
-- Stop trading for the week after 10% loss.
+## 📉 Trade Setup (When Price Enters Zone)
+- Is price in valid zone for bias?
+  - 🟩 Cheap = look for Longs only (if ↑ / ↔)
+  - 🟥 Expensive = look for Shorts only (if ↓ / ↔)
+- On 5min LTF:
+  - Demand (for long) or Supply (for short) found?
+  - Trend shift or reversal confirmed? (e.g., CHoCH or BOS)
+- All conditions align? → Prepare order
+- Place:
+  - Entry at zone
+  - Stop below LTF low/high
+  - Target: nearest LTF S/D zone with 2–4R
 
-## Fees
+---
 
-- Maker: 0.000%
-- Taker: 0.045%
+## 🛑 Post-Trade Review (End of Day)
+- Trade outcome: ✅ Win / ❌ Loss / ⚪ Missed
+- Did I follow the playbook 100%?
+- What emotion came up before/during/after?
+- Log trade + screenshots
 
-A Maker order is a placed order that is not bought out immediately but remains in the list of orders to be executed in the future instead. Limit and stop orders can be either a Taker or a Maker transaction depending on whether this order is part of the order book (if it took part in its formation, then it is considered a Maker order) or it has executed an order that was already in the order book” (then it is considered a Taker order).
+---
+
+## 🔁 Recovery Protocol (After Losing Streak)
+- Did I follow all rules?
+  - Yes → Accept loss
+  - No → Fix behavior
+- Do NOT change system without a 20-trade sample
+- Journal emotion, not strategy
+- Return to clean setup tomorrow (1 trade only)
+
+---
 
 ## Education
 
@@ -55,3 +77,5 @@ A Maker order is a placed order that is not bought out immediately but remains i
 - CHOCH -> Change of character. Trend verandering
 - OB -> Orde block
 - FVG -> Fair value gap
+
+---
