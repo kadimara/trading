@@ -3,6 +3,7 @@
 	import { TradeUtils } from '$lib/utils/TradeUtils';
 	import { SquareIcon, XSquareIcon } from 'svelte-feather-icons';
 	import type { HTMLTdAttributes } from 'svelte/elements';
+	import TdInput from './TdInput.svelte';
 
 	type CellEvent = Event & { currentTarget: EventTarget & HTMLTableCellElement };
 
@@ -11,37 +12,15 @@
 		disabled?: boolean;
 	} & HTMLTdAttributes;
 	let { exit = $bindable(), disabled = true, ...props }: Props = $props();
-	const fee = $derived(exit ? TradeUtils.round(fees[exit.type] * (exit.amount || 0), 2) : 0);
 
-	const value = $derived(exit ? `${Math.round(exit.amount)} / ${Math.round(exit.price)}` : '');
+	let fee = $derived(exit ? TradeUtils.round(fees[exit.type] * (exit.amount || 0), 2) : 0);
+	let value = $derived(exit ? `${Math.round(exit.amount)} / ${Math.round(exit.price)}` : '');
 
 	const dispatchChangeEvent = (e: CellEvent) => {
 		// Create a new 'change' event
 		const changeEvent = new Event('change', { bubbles: true });
 		// Dispatch the event
 		e.currentTarget.dispatchEvent(changeEvent);
-	};
-
-	const handleFocus = (e: CellEvent) => {
-		const element = e.currentTarget;
-		const range = document.createRange();
-		range.selectNodeContents(element);
-		const selection = window.getSelection();
-		selection?.removeAllRanges();
-		selection?.addRange(range);
-	};
-
-	const handleBlur = (e: CellEvent) => {
-		var parts = e.currentTarget.innerText.split('/');
-		var amount = Math.round(Number(parts[0])) || 0;
-		var price = Math.round(Number(parts[1])) || 0;
-		if (price || amount) {
-			exit = { price, amount, type: exit?.type || 'maker' };
-		} else {
-			exit = undefined;
-		}
-
-		dispatchChangeEvent(e);
 	};
 
 	const handleFees = (e: CellEvent) => {
@@ -53,23 +32,21 @@
 		};
 		dispatchChangeEvent(e);
 	};
+
+	const handleChange = (e: CellEvent) => {
+		const innerText = e.currentTarget.innerText.trim();
+		var parts = innerText.split('/');
+		var amount = Math.round(Number(parts[0])) || 0;
+		var price = Math.round(Number(parts[1])) || 0;
+		if (price || amount) {
+			exit = { price, amount, type: exit?.type || 'maker' };
+		} else {
+			exit = undefined;
+		}
+	};
 </script>
 
-<td
-	contenteditable={disabled ? false : 'plaintext-only'}
-	onfocus={handleFocus}
-	onblur={handleBlur}
-	ondblclick={(e) => !disabled && e.stopPropagation()}
-	{...props}
->
-	{#if exit}
-		{#if disabled}
-			${value}
-		{:else}
-			{value}
-		{/if}
-	{/if}
-</td>
+<TdInput {value} onchange={handleChange} {disabled} {...props} />
 <td
 	class="fees"
 	onclick={handleFees}
@@ -86,15 +63,6 @@
 </td>
 
 <style>
-	td[contenteditable='plaintext-only'] {
-		cursor: text;
-	}
-
-	td {
-		text-align: end;
-		white-space: nowrap;
-	}
-
 	td.fees {
 		padding-left: 0;
 	}

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { statuses, symbols, timeFrames, type Trade } from '$lib/data/Trade';
 	import { TradeUtils } from '$lib/utils/TradeUtils';
-	import TdCurrency from './TdCurrency.svelte';
 	import TdExit from './TdExit.svelte';
+	import TdInput from './TdInput.svelte';
 	import TdSelect from './TdSelect.svelte';
 
 	type Props = {
@@ -46,10 +46,10 @@
 	<TdSelect bind:value={trade.symbol} options={symbols} {disabled} />
 	<TdSelect bind:value={trade.timeFrame} options={timeFrames} {disabled} />
 	<td class={trade.longShort}>{trade.longShort}</td>
-	<TdCurrency bind:value={trade.account} {disabled} />
-	<TdCurrency bind:value={trade.amount} {disabled} />
-	<TdCurrency bind:value={trade.entry} {disabled} />
-	<TdCurrency bind:value={trade.stopLoss} {disabled} />
+	<TdInput bind:value={trade.account} {disabled} />
+	<TdInput bind:value={trade.amount} {disabled} />
+	<TdInput bind:value={trade.entry} {disabled} />
+	<TdInput bind:value={trade.stopLoss} {disabled} />
 	<TdExit bind:exit={trade.exit1} {disabled} />
 	<TdExit bind:exit={trade.exit2} {disabled} />
 	<td>{'%' + (trade.risk * 100).toFixed(2)}</td>
