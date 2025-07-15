@@ -73,7 +73,7 @@ export class TradeUtils {
 			plan: '',
 			reflection: '',
 			symbol: trade?.symbol || 'btc',
-			timeFrame: trade?.timeFrame || '5min',
+			timeFrame: trade?.timeFrame || '5m',
 			longShort: 'long',
 			risk: 0,
 			riskRewardRatio: '',
