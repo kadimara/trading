@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { handleKeydownToClick } from '$lib/utils/Handlers';
 	import { XIcon } from 'svelte-feather-icons';
 	import type { HTMLInputAttributes } from 'svelte/elements';
 
@@ -63,9 +64,14 @@
 		<div class="tag">
 			{tag}
 			{#if !disabled}
-				<!-- svelte-ignore a11y_click_events_have_key_events -->
-				<!-- svelte-ignore a11y_no_static_element_interactions -->
-				<span class="icon" onclick={() => removeTag(index)}>
+				<span
+					class="icon"
+					role="button"
+					aria-label="Remove tag"
+					tabindex="0"
+					onclick={() => removeTag(index)}
+					onkeydown={handleKeydownToClick}
+				>
 					<XIcon />
 				</span>
 			{/if}

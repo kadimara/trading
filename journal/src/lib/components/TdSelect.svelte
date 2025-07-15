@@ -21,7 +21,7 @@
 	{#if disabled}
 		{value}
 	{:else}
-		<select bind:value {disabled}>
+		<select bind:value {disabled} tabindex="0">
 			{#each options as option}
 				<option value={option}>{option}</option>
 			{/each}
@@ -30,7 +30,7 @@
 </td>
 
 <style>
-	select {
-		border: none;
+	select:not(:focus) {
+		border-color: transparent;
 	}
 </style>

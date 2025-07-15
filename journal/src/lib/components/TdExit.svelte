@@ -4,6 +4,7 @@
 	import { SquareIcon, XSquareIcon } from 'svelte-feather-icons';
 	import type { HTMLTdAttributes } from 'svelte/elements';
 	import TdInput from './TdInput.svelte';
+	import { handleKeydownToClick } from '$lib/utils/Handlers';
 
 	type CellEvent = Event & { currentTarget: EventTarget & HTMLTableCellElement };
 
@@ -49,9 +50,12 @@
 <TdInput {value} onchange={handleChange} {disabled} {...props} />
 <td
 	class="fees"
-	onclick={handleFees}
-	ondblclick={(e) => !disabled && e.stopPropagation()}
 	title={`${exit?.type}: ${fee} `}
+	aria-label="Toggle fees type"
+	tabindex="0"
+	onclick={handleFees}
+	onkeydown={handleKeydownToClick}
+	ondblclick={(e) => !disabled && e.stopPropagation()}
 >
 	{#if exit}
 		{#if exit?.type === 'taker'}
