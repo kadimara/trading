@@ -7,7 +7,7 @@ export type LongShort = (typeof longShort)[number];
 export const symbols = ['btc', 'eth', 'ada'] as const;
 export type Symbol = (typeof symbols)[number];
 
-export const timeFrames = ['1min', '3min', '5min', '15min'] as const;
+export const timeFrames = ['1min', '3min', '5min', '15min', '1h', '4h', '1d'] as const;
 export type TimeFrame = (typeof timeFrames)[number];
 
 export const fees = { taker: 0.0005, maker: 0 } as const;
