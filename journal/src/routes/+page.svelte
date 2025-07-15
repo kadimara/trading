@@ -23,10 +23,8 @@
 	};
 	const handleDblClick = (trade: Trade) => {
 		dialog?.show(trade, trades, (updatedTrade) => {
-			if (updatedTrade.status != 'closed' && updatedTrade.status != 'canceled') {
-				const index = trades.findIndex((t) => trade.date == t.date);
-				handleChange(trades.toSpliced(index, 1, updatedTrade));
-			}
+			const index = trades.findIndex((t) => trade.date == t.date);
+			handleChange(trades.toSpliced(index, 1, updatedTrade));
 		});
 	};
 	const handleAdd = () => {
